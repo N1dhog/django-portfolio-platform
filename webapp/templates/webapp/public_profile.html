@@ -1,0 +1,209 @@
+{% extends 'webapp/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="hero-bg py-5">
+    <div class="container mt-5">
+        
+        {% if request.user == profile.user %}
+        <div class="d-flex justify-content-end mb-3">
+            <a class="btn btn-light btn-sm glass-btn" href="{% url 'dashboard' %}">
+                <i class="fa-solid fa-arrow-left"></i> დეშბორდზე დაბრუნება
+            </a>
+        </div>
+        {% endif %}
+
+        <div class="glass-card shadow-lg p-5 rounded-5 mb-5 portfolio-hero">
+            <div class="row align-items-center">
+                
+                <div class="col-lg-7 col-md-12 text-content animate-fade-up">
+            
+                    <h1 class="text-white-45 mb-2 fw-bold text-Gerold fs-2">
+                        {{ profile.user.first_name }} {{ profile.user.last_name }}
+                    </h1>
+                    
+                    {% if profile.profession %}
+                        <h1 class="fw-bold mb-3" style="color: #a29bfe;">
+                            {{ profile.profession }}
+                        </h1>
+                    {% endif %}
+                    
+                    {% if profile.description %}
+                        <p class="text-white-50 mb-4 fs-6 lh-base" style="max-width: 550px;">
+                            {{ profile.description }}
+                        </p>
+                    {% endif %}
+                    <br>
+                    <br>
+                    
+                    
+                    <div class="hero-cta-section d-flex align-items-center gap-3">
+                        {% if profile.cv_file %}
+                            <div class="cv-download-wrapper">
+                                <a href="{{ profile.cv_file.url }}" download class="btn btn-primary btn-gradient px-4 py-2 fw-bold cv-download-link">
+                                    გადმოწერე CV <i class="fa fa-download ms-2"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="social-icon-icons-section d-flex gap-2 {% if profile.cv_file %}ms-3{% endif %}">
+                            {% for link in social_links %}
+                                <div class="social-icon-loop-wrapper">
+                                    <a href="{{ link.url }}" target="_blank" class="text-white text-decoration-none social-icon-loop-link fs-5">
+                                        {% if link.platform == 'facebook' %}<i class="fab fa-facebook text-primary"></i>
+                                        {% elif link.platform == 'twitter' %}<i class="fa-brands fa-square-x-twitter"></i>
+                                        {% elif link.platform == 'instagram' %}<i class="fab fa-instagram text-danger"></i>
+                                        {% elif link.platform == 'linkedin' %}<i class="fab fa-linkedin text-info"></i>
+                                        {% elif link.platform == 'github' %}<i class="fab fa-github"></i>
+                                        {% else %}<i class="fa-solid fa-link"></i>{% endif %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="user-meta-info">
+             {% for record in records %}
+        
+            
+            {% if record.city or record.country %}
+                <p>
+                    <i class="fa-solid fa-location-dot"></i> 
+                    {{ record.city }}, {{ record.country }}
+                </p>
+            {% endif %}
+            
+            <p>
+                <i class="fa-solid fa-calendar-days"></i> 
+                {{ record.creation_date|date:"d M, Y" }}
+            </p>
+            
+        
+           {% endfor %}
+              </div>
+            </div>
+                    
+                </div>
+
+                <div class="col-lg-5 col-md-12 text-center profile-avatar-Gerold animate-fade-up-delayed">
+    
+    <div class="avatar-container-wrapper d-inline-block mb-4 mt-4">
+        <div class="avatar-label-Gerold m-0 rounded-5 overflow-hidden" style="cursor: default;">
+            <div class="avatar-panel rounded-5">
+                {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" class="w-100 h-100 object-fit-cover Gerold-portrait">
+                {% else %}
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-dark text-white-50 Gerold-placeholder">
+                        <i class="fa-solid fa-user fa-2x"></i>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+</div>
+                
+            </div>
+        </div>
+
+        <div class="row g-4">
+            
+            <div class="col-lg-4">
+                
+                <div class="glass-card shadow-lg p-4 rounded-4 mb-4">
+                    <h5 class="fw-bold text-white-50 mb-3 border-bottom border-secondary pb-2">ჩემს შესახებ</h5>
+                    
+                    {% if profile.about_image %}
+                        <div class="w-100 mb-3 rounded-3 overflow-hidden" style="height: 100%">
+                            <img src="{{ profile.about_image.url }}" class="w-100 h-100 object-fit-cover">
+                        </div>
+                    {% endif %}
+
+                    <div class="text-white-40 small lh-lg mb-0">
+                        {% if profile.about_description %}
+                            {{ profile.about_description|linebreaks }}
+                        {% else %}
+                            <span class="text-white-50 italic">ინფორმაცია არ არის შევსებული.</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="glass-card shadow-lg p-4 rounded-4">
+                    <h5 class="fw-bold text-white-45 mb-3 border-bottom border-secondary pb-2">კონტაქტები</h5>
+                    
+                    <ul class="list-unstyled text-white-50 mb-4">
+                        <li class="mb-2">
+                            <i class="fa-solid fa-envelope me-2 text-primary"></i> {{ profile.user.email }}
+                        </li>
+                        {% for record in records %}
+                            {% if record.phone %}
+                                <li class="mb-2">
+                                    <i class="fa-solid fa-phone me-2 text-success"></i> +995 {{ record.phone }}
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+
+                    <h6 class="text-white-40 mb-3">სოციალური ბმულები</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for link in social_links %}
+                            <a href="{{ link.url }}" target="_blank" class="badge  border border-secondary d-flex align-items-center gap-2 p-2 rounded-pill text-white-50 text-decoration-none project-social-badge">
+                                {% if link.platform == 'facebook' %}<i class="fab fa-facebook text-primary"></i>
+                                {% elif link.platform == 'twitter' %}<i class="fa-brands fa-square-x-twitter"></i>
+                                {% elif link.platform == 'instagram' %}<i class="fab fa-instagram text-danger"></i>
+                                {% elif link.platform == 'linkedin' %}<i class="fab fa-linkedin text-info"></i>
+                                {% elif link.platform == 'github' %}<i class="fab fa-github"></i>
+                                {% else %}<i class="fa-solid fa-link"></i>{% endif %}
+                                <span class="text-capitalize small">{{ link.platform }}</span>
+                            </a>
+                        {% empty %}
+                            <span class="small text-white-50">სოციალური ქსელი არ არის მითითებული</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="glass-card shadow-lg p-4 rounded-4 h-100">
+                    <h4 class="fw-bold text-white-50 mb-4 border-bottom border-secondary pb-2">ჩემი ნამუშევრები</h4>
+
+                    <div class="projects-grid">
+                        {% for p in projects %}
+<a href="{% url 'public_project_detail' p.id %}" class="dash-project-card text-decoration-none d-block">
+    <div class="dash-img-stack">
+        {% with project_photos=p.photos.all|dictsortreversed:"id"|slice:":3" %}
+            {% if project_photos|length == 3 %}
+                <img src="{{ project_photos.2.image.url }}" class="stack-img stack-3">
+                <img src="{{ project_photos.1.image.url }}" class="stack-img stack-2">
+                <img src="{{ project_photos.0.image.url }}" class="stack-img stack-1">
+            {% elif project_photos|length == 2 %}
+                <img src="{{ project_photos.1.image.url }}" class="stack-img stack-2">
+                <img src="{{ project_photos.0.image.url }}" class="stack-img stack-1">
+            {% elif project_photos|length == 1 %}
+                <img src="{{ project_photos.0.image.url }}" class="stack-img stack-1 w-100 border-0">
+            {% else %}
+                <div class="stack-img stack-1 w-100 bg-dark d-flex align-items-center justify-content-center">
+                    <i class="fa-regular fa-image text-white-50 fa-2x"></i>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="dash-card-body mt-3">
+        <h6 class="text-white fw-bold mb-1 text-truncate">{{ p.title }}</h6>
+        <p class="small text-white-50 mb-0 text-truncate">{{ p.description }}</p>
+    </div>
+</a>
+{% empty %}
+    <div class="w-100 text-center py-5 text-white-50">
+        <i class="fa-solid fa-folder-open fa-2x mb-2"></i>
+        <p class="mb-0">პროექტები ჯერ არ არის ატვირთული</p>
+    </div>
+{% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

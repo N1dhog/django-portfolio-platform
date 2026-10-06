@@ -1,0 +1,23 @@
+{% extends 'webapp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="hero-bg d-flex align-items-center justify-content-center">
+    <div class="glass-card shadow-lg p-5 rounded-4" style="max-width: 400px; width: 100%;">
+        <h3 class="text-center mb-4 fw-bold text-white-40">ანგარიშში შესვლა</h3>
+        <hr class="border-secondary mb-4">
+
+        <form method="POST" autocomplete="off" class="d-flex flex-column gap-3 custom-django-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary btn-gradient w-100 py-2 mt-2 fw-bold">
+                შესვლა <i class="fa fa-key ms-2"></i>
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <small class="text-white-50">არ გაქვს ანგარიში? <a href="{% url 'register' %}" class="text-primary text-decoration-none fw-bold">რეგისტრაცია</a></small>
+        </div>
+    </div>
+</div>
+{% endblock %}

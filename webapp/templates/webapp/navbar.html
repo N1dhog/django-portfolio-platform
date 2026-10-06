@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg glass-navbar fixed-top">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand main-heading text-white fw-bold" href="{% url '' %}">
+            Gallery<span class="text-primary">.Ge</span>
+        </a>
+
+        <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fa-solid fa-bars text-white-50"></i>
+</button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto align-items-center gap-3">
+                <li class="nav-item">
+                    <a class="nav-link custom-link" href="{% url 'explore' %}">
+                        გალერეა
+                    </a>
+                </li>
+                
+                <li class="nav-item-search position-relative">
+                    <form class="search-form d-flex align-items-center" action="{% url 'live_user_search' %}" method="get">
+                        <div class="input-group glass-search">
+                            <span class="input-group-text border-0 bg-transparent">
+                                <i class="fa fa-search text-white-50"></i>
+                            </span>
+                            <input id="live-search" name="q" type="text" 
+                                   class="form-control border-0 bg-transparent text-white shadow-none" 
+                                   placeholder="ძებნა..." autocomplete="off">
+                        </div>
+                    </form>
+                    <div id="search-results" class="search-results hidden glass-dropdown"></div>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{% url 'user_projects' %}" class="nav-link custom-link">პროექტები</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center profile-link" href="{% url 'dashboard' %}">
+                            {% if user.profile.profile_image %}
+                                <img src="{{ user.profile.profile_image.url }}" class="rounded-circle profile-icon border border-secondary" style="width: 36px; height: 36px; object-fit: cover;">
+                            {% else %}
+                                <i class="fa-solid fa-circle-user text-white-50" style="font-size: 32px;"></i>
+                            {% endif %}
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link logout-btn" href="{% url 'user-logout' %}">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link custom-link" href="{% url 'register' %}">რეგისტრაცია</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary login-btn px-4 py-2" href="{% url 'my-login' %}">შესვლა</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                        <button id="themeToggleBtn" class="btn btn-outline-secondary rounded-circle theme-toggle-btn" title="რეჟიმის შეცვლა">
+                            <i id="themeIcon" class="fa-solid fa-sun"></i>
+                        </button>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</nav>

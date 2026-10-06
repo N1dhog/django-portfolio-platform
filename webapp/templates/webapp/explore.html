@@ -1,0 +1,122 @@
+{% extends 'webapp/base.html' %}
+{% block content %}
+        
+
+
+<div class="explore-container pt-0">
+    
+    <div class="behance-filter-container">
+        <button class="scroll-arrow left-arrow" id="slideLeft"><i class="fa-solid fa-chevron-left"></i></button>
+        
+        <div class="behance-filter-wrapper" id="filterWrapper">
+            <a href="{% url 'explore' %}" class="category-pill {% if not current_category %}active{% endif %}">
+                <div class="pill-bg" style="background-image: url('https://picsum.photos/id/293/300/100');"></div>
+                <span class="pill-text">ყველა ნამუშევარი</span>
+            </a>
+
+            {% for cat in all_categories %}
+                <a href="{% url 'explore' %}?category={{ cat.slug }}" class="category-pill {% if current_category == cat.slug %}active{% endif %}">
+                    <div class="pill-bg" style="background-image: url('https://picsum.photos/seed/{{ cat.slug }}/300/100');"></div>
+                    <span class="pill-text">{{ cat.name }}</span>
+                </a>
+            {% endfor %}
+        </div>
+        
+        <button class="scroll-arrow right-arrow" id="slideRight"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <div class="explore-masonry">
+    {% for photo in photos %}
+        {% url 'public_profile' photo.project.user.username as profile_url %}
+        
+        <div class="explore-item">
+            <div class="explore-img-wrapper shadow-lg" >
+                <div class="explore-masonry-item skeleton-container" 
+             onclick="openExploreZoom(this)"
+             data-lightbox-src="{{ photo.image.url }}"
+             data-project-title="{{ photo.project.title }}"
+             data-author-username="{{ photo.project.user.username }}"
+             data-author-fullname="{% if photo.project.user.first_name %}{{ photo.project.user.first_name }} {{ photo.project.user.last_name }}{% else %}{{ photo.project.user.username }}{% endif %}"
+             data-author-avatar="{% if photo.project.user.profile.profile_image %}{{ photo.project.user.profile.profile_image.url }}{% endif %}"
+             data-profile-url="{% url 'public_profile' username=photo.project.user.username %}"
+             data-like-url="{% url 'like_project' photo.id %}"
+             data-likes="{{ photo.total_likes }}"
+             data-is-liked="{% if user in photo.likes.all %}true{% else %}false{% endif %}">
+        
+            <img src="{{ photo.image.url }}" 
+                 class="explore-masonry-img" 
+                 loading="lazy" 
+                 alt="Gallery Image">
+                 
+        </div>
+         <div class="explore-overlay">
+            <h5 class="project-title">{{ photo.project.title }}</h5>
+        </div>
+            </div>
+            
+            <div class="explore-info mt-3 d-flex align-items-center">
+                <a href="{{ profile_url }}" class="text-decoration-none d-flex align-items-center">
+                    {% if photo.project.user.profile.profile_image %}
+                        <img src="{{ photo.project.user.profile.profile_image.url }}" alt="Avatar" class="author-avatar me-2 shadow-sm">
+                    {% else %}
+                        <img src="https://ui-avatars.com/api/?name={{ photo.project.user.username }}&background=2d3436&color=fff&rounded=true&bold=true" alt="Avatar" class="author-avatar me-2 shadow-sm">
+                    {% endif %}
+                    
+                    <span class="author-name">
+                        {% if photo.project.user.first_name or photo.project.user.last_name %}
+                            {{ photo.project.user.first_name }} {{ photo.project.user.last_name }}
+                        {% else %}
+                            {{ photo.project.user.username }}
+                        {% endif %}
+                    </span>
+                </a>
+                
+                <div class="project-likes d-inline-flex align-items-center ms-auto">
+                    <button class="btn btn-link p-0 text-decoration-none shadow-none like-btn" 
+                            data-url="{% url 'like_project' photo.id %}"
+                            data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+                        <i class="{% if user in photo.likes.all %}fa-solid text-purple{% else %}fa-regular text-secondary{% endif %} fa-heart fs-5 like-icon"></i>
+                    </button>
+                    <span class="ms-2 fw-bold text-white-50 likes-count">{{ photo.total_likes }}</span>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<div id="custom-alert-container" class="custom-alert-container"></div>
+
+<div id="exploreLightbox" class="explore-lightbox" onclick="closeExploreZoom()">
+    <span class="lightbox-close">&times;</span>
+    <div class="lightbox-content-wrapper d-flex" onclick="event.stopPropagation();">
+        <div class="lightbox-left-col">
+            <img id="lightboxImg" src="" alt="Zoomed Image">
+        </div>
+       <div class="lightbox-right-col d-flex flex-column justify-content-center align-items-center text-center">
+            <div class="lightbox-card-inner w-100 px-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 id="lightboxProjectTitle" class="text-white mb-3 fw-bold" style="font-size: 1.3rem;"></h3>
+                    <div class="lightbox-like-section mb-3 justify-content-center">
+                        <button id="lightboxLikeBtn" class="btn btn-link p-0 text-decoration-none shadow-none like-btn" data-url="" data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+                            <i id="lightboxLikeIcon" class="fa-regular text-secondary fa-heart fs-4 like-icon"></i>
+                        </button>
+                        <span id="lightboxLikeCount" class="ms-2 fw-bold text-white-50 likes-count" style="font-size: 1.1rem;">0</span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center bg-white-5 rounded-3 p-2 mb-3 mx-auto" style="max-width: 320px;">
+                   <img id="lightboxAuthorAvatar" src="" alt="Avatar" class="rounded-circle me-3 shadow" style="width: 45px; height: 45px; object-fit: cover; border: 2px solid #a29bfe; display: none; flex-shrink: 0;">
+                   <div class="text-start">
+                      <span class="text-white-50 small d-block" style="font-size: 0.8rem; line-height: 1;">ავტორი:</span>
+                      <span id="lightboxAuthorFullName" class="text-white fw-medium" style="font-size: 1rem;"></span>
+                   </div>
+                </div>
+                <a id="lightboxAuthorLink" href="" class="btn btn-outline-purple rounded-pill px-4 w-90">
+                    <i class="fa-solid fa-user me-2"></i> პროფილზე გადასვლა
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

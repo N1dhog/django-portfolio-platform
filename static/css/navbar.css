@@ -1,0 +1,222 @@
+/* =========================================
+   Glassmorphism Navbar Styles
+   ========================================= */
+
+/* მთავარი Navbar-ის ფონი და შუშის ეფექტი */
+.glass-navbar {
+    background: rgba(18, 18, 24, 0.6) !important; /* მუქი, ნახევრად გამჭვირვალე ფონი */
+    backdrop-filter: blur(12px); /* ეს აკეთებს ბუნდოვან შუშის ეფექტს */
+    -webkit-backdrop-filter: blur(12px); /* Safari-სთვის */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* ოდნავ შესამჩნევი ქვედა ხაზი */
+    padding: 0.8rem 0;
+    transition: all 0.3s ease;
+}
+
+/* ლოგოს სტილიზაცია */
+.glass-navbar .navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+.glass-navbar .text-primary {
+    color: #6c5ce7 !important; /* თქვენი ბრენდის ფერი (შეცვალეთ სურვილისამებრ) */
+}
+
+/* ნავიგაციის ლინკები */
+.glass-navbar .custom-link {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 12px !important;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.glass-navbar .custom-link:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08); /* ოდნავ ანათებს ჰოვერზე */
+}
+
+/* ძებნის ველი შუშის ეფექტით */
+.glass-search {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 400px;
+}
+
+.glass-search:focus-within {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(108, 92, 231, 0.5);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+    width: 450px; /* ფოკუსის დროს იზრდება */
+}
+
+.glass-search input {
+    color: white !important;
+}
+.glass-search input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* პროფილის სურათის Hover ეფექტი */
+.profile-link:hover .profile-icon {
+    transform: scale(1.05);
+    border-color: #6c5ce7 !important;
+    transition: all 0.2s ease;
+}
+
+/* გამოსვლის ღილაკი */
+.logout-btn {
+    color: rgba(255, 118, 117, 0.8) !important;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+}
+.logout-btn:hover {
+    color: #ff7675 !important;
+    transform: scale(1.1);
+}
+
+/* შესვლის ღილაკი */
+.login-btn {
+    background: #6c5ce7;
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+}
+.login-btn:hover {
+    background: #5a4bcf;
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.4);
+}
+
+/* მობილურის ღილაკი (Toggler) */
+.custom-toggler {
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+.custom-toggler:focus {
+    box-shadow: none;
+}
+
+/* მობილურის მენიუს რესპონსიულობა */
+@media (max-width: 991px) {
+    .glass-navbar .navbar-collapse {
+        background: rgba(18, 18, 24, 0.95);
+        padding: 1rem;
+        border-radius: 12px;
+        margin-top: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .glass-search {
+        width: 100%;
+    }
+    .glass-search:focus-within {
+        width: 100%;
+    }
+}
+
+
+
+
+.search-results {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.163);
+    width: 450px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-top: 5px;
+    z-index: 9999;
+    display: block;
+    text-decoration: none;  
+}
+
+.search-results.hidden {
+    display: none;
+   
+}
+
+.search-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    
+    
+    
+}
+
+.search-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.search-item img {
+    border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .search-results {
+        width: 350px;
+    }
+}
+/* ==========================================================================
+   LIVE SEARCH RESULTS STYLES (Glassmorphism & White/Accent Colors)
+   ========================================================================== */
+
+/* 1. ჩამოსაშლელი კონტეინერი (glass-dropdown) */
+.glass-dropdown {
+    background: rgba(15, 15, 24, 0.9) !important; /* მუქი პრემიუმ ფონი */
+    backdrop-filter: blur(12px) !important;       /* შუშის ეფექტი */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+/* 2. თითოეული შედეგის ელემენტი (ლინკი ან კონტეინერი შიგნით) */
+#search-results a,
+#search-results .search-item,
+#search-results li {
+    color: #ffffff !important;         /* 🎯 მწვანეს ნაცვლად ვსვამთ თეთრ ტექსტს */
+    text-decoration: none !important;
+    display: block;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* 3. ეფექტი ძიების შედეგზე მაუსის მიტანისას (Hover) */
+#search-results a:hover,
+#search-results .search-item:hover {
+    background-color: rgba(162, 155, 254, 0.15) !important; /* ნაზი იისფერი უკანა ფონი */
+    color: #a29bfe !important;                             /* ტექსტი გადადის საიტის საფირმო იისფერში */
+    padding-left: 20px;                                      /* მსუბუქი წანაცვლება დინამიკისთვის */
+}
+
+/* 4. თუ შედეგებში ცალკე span ან პატარა ტექსტებია (მაგალითად username) */
+#search-results span, 
+#search-results small {
+    color: rgba(255, 255, 255, 0.6) !important; /* მომხმარებლის იუზერნეიმი ან სხვა ინფო იქნება შედარებით მკრთალი თეთრი */
+}
+
+/* 5. საძიებო ინპუტის (glass-search) ჩარჩოს ეფექტი აქტიურებისას */
+.glass-search {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.glass-search:focus-within {
+    border-color: #a29bfe !important; /* აქტიურებისას იისფერი ხდება */
+    box-shadow: 0 0 0 0.25rem rgba(162, 155, 254, 0.25) !important;
+}

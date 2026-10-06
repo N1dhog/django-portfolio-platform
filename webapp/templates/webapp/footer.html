@@ -1,0 +1,44 @@
+<footer class="px-4 py-5 site-footer">
+
+    <div class="footer-inner container">
+
+        <!-- Left: Logo + description -->
+        <div class="footer-about">
+            <h4 class="footer-logo">Gallery.Ge</h4>
+            <p class="footer-text">
+                პლატფორმა, სადაც შემოქმედები თავიანთ ნამუშევრებს უზიარებენ სამყაროს.
+                აღმოაჩინე, შექმენი, ჩაერთე.
+            </p>
+        </div>
+
+        <!-- Center: Navigation -->
+        <div class="footer-links">
+            <h5>ნავიგაცია</h5>
+            <ul>
+                <li><a href="{% url '' %}">მთავარი</a></li>
+                <li><a href="{% url '' %}">გალერეა</a></li>
+                <li><a href="{% url 'dashboard' %}">პროფილი</a></li>
+                <li><a href="{% url 'register' %}">რეგისტრაცია</a></li>
+                <li><a href="{% url 'my-login' %}">შესვლა</a></li>
+            </ul>
+        </div>
+
+        <!-- Right: Social / contact -->
+        <div class="footer-social">
+            <h5>კონტაქტი</h5>
+            <p><a href="mailto:contact@projectx.com">contact@galleryge.com</a></p>
+
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom text-center mt-4">
+        © {{ now|date:"Y" }} Gallery.Ge — ყველა უფლება დაცულია.
+    </div>
+
+</footer>

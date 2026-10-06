@@ -1,0 +1,699 @@
+@font-face {
+    font-family: 'Archyedt-bold';
+    /* `../` ნიშნავს ერთი ფოლდერით მაღლა ასვლას */
+    src: url('../fonts/Archyedt-bold.otf'); 
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Archyedt-bold', sans-serif;
+}
+
+
+
+
+
+/* ==========================================================================
+   DJANGO FLASH MESSAGES (PREMIUM GLASSMORPHISM)
+   ========================================================================== */
+
+/* შეტყობინების მთავარი მომცველი კონტეინერი */
+.message-text {
+    position: fixed;
+    top: 95px; /* ნავბარის ქვეშ ჩამოსასვლელად */
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center; /* 🎯 აბსოლუტური ცენტრირება ჰორიზონტალურად */
+    z-index: 100000; 
+    pointer-events: none; 
+    width: 100%; /* მთელ სიგანეზე იშლება კონტეინერი, რომ შიგთავსი გაცენტრდეს */
+}
+
+/* თავად შეტყობინების ბარათი */
+#message-timer.alert-success {
+    pointer-events: auto; 
+    background: rgba(18, 18, 29, 0.8) !important; 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    border: 1px solid rgba(162, 155, 254, 0.25) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 
+                0 0 20px rgba(162, 155, 254, 0.15);
+    
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    
+    /* ახალი, სუფთა ანიმაცია */
+    animation: slideDownMessage 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+/* წარმატების მწვანე/იისფერი Checkmark აიქონი */
+#message-timer.alert-success i {
+    color: #a29bfe !important; /* საიტის საფირმო იისფერი */
+    background: rgba(162, 155, 254, 0.15);
+    padding: 6px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+}
+.alert-purple {
+    background-color: #f3e8ff; /* ღია იასამნისფერი ფონი */
+    color: #6b21a8;            /* მუქი იასამნისფერი ტექსტი */
+    border: 1px solid #e9d5ff;
+}
+
+/* გამოჩენის ანიმაცია */
+@keyframes slideDownMessage {
+    from {
+        opacity: 0;
+        transform: translateY(-30px); /* უბრალოდ ზემოდან ჩამოცურდება */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* ==========================================================================
+   LIGHT MODE OVERRIDE FOR FLASH MESSAGES
+   ========================================================================== */
+body.light-mode #message-timer.alert-success {
+    background: rgba(255, 255, 255, 0.9) !important; /* ნათელი თეთრი შუშა */
+    border: 1px solid rgba(108, 92, 231, 0.2) !important;
+    box-shadow: 0 15px 35px rgba(108, 92, 231, 0.08), 
+                0 4px 12px rgba(0, 0, 0, 0.04);
+    color: #2b2b36 !important; /* მუქი წაკითხვადი ტექსტი */
+}
+
+body.light-mode #message-timer.alert-success i {
+    color: #6c5ce7 !important; /* უფრო მკვეთრი იისფერი აიქონი */
+    background: rgba(108, 92, 231, 0.08);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   AUTH & FORMS CSS (Login, Register, Records)
+   ========================================= */
+
+/* 1. მთავარი ფონი (Hero Background) */
+.hero-bg {
+    min-height: 100vh;
+    width: 100%;
+    /* შეგიძლიათ ჩასვათ ნებისმიერი ფონის სურათი */
+    background-image: linear-gradient(to bottom, rgba(11, 11, 15, 0.7), rgba(11, 11, 15, 0.95)), url('https://picsum.photos/id/1070/1920/1080');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 60px 20px 40px; /* ზედა პადინგი ნავიგაციისთვის */
+}
+
+/* 2. შუშის ეფექტის მქონე ბარათი (Glass Card) */
+.glass-card {
+    background: rgba(22, 22, 30, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
+    color: #ffffff;
+}
+
+/* 3. ჯანგოს ფორმების სტილიზაცია (.custom-django-form) */
+.custom-django-form p {
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ველების სათაურები (Labels) */
+.custom-django-form label {
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+/* ტექსტური ველები (Inputs, Textareas, Selects) */
+.custom-django-form input[type="text"],
+.custom-django-form input[type="email"],
+.custom-django-form input[type="password"],
+.custom-django-form input[type="number"],
+.custom-django-form textarea,
+.custom-django-form select {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+/* ფოკუსის ეფექტი ველებზე */
+.custom-django-form input:focus,
+.custom-django-form textarea:focus,
+.custom-django-form select:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.4);
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15);
+}
+
+/* ავტოშევსების ფონის გასწორება Chrome-ში */
+.custom-django-form input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #1c1c24 inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+/* 4. ღილაკების გრადიენტი */
+.btn-gradient {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(108, 92, 231, 0.4);
+}
+
+/* დამატებითი ლინკების ჰოვერი */
+a.text-primary:hover {
+    color: #a29bfe !important;
+    text-decoration: underline !important;
+}
+
+
+
+
+
+
+
+
+
+/* =========================================
+   DASHBOARD PORTFOLIO HERO CSS (Gerold Look)
+   ========================================= */
+
+/* Parallax ფონის დამუშავება */
+.hero-bg {
+    background-image: linear-gradient(to bottom, rgba(11, 11, 15, 0.7), rgba(11, 11, 15, 0.95)), url('https://picsum.photos/id/1070/1920/1080');
+    background-attachment: fixed; /* უზრუნველყოფს კლასიკურ პარალაქსს */
+}
+
+/* გრადიენტული სათაური (დიდი ტექსტისთვის) */
+.text-gradient {
+    background: linear-gradient(135deg, #ff7675, #6c5ce7);
+    -webkit-background-clip: text;
+    background-clip: text; /* standard property for compatibility */
+    -webkit-text-fill-color: transparent;
+}
+
+/* ანიმაციები ჩატვირთვისთვის */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeInUp 0.8s ease forwards; }
+.animate-fade-up-delayed { animation: fadeInUp 0.8s ease 0.2s forwards; opacity: 0; }
+
+/* პორტფოლიოს სექციის ბარათი */
+.portfolio-hero {
+    background: rgba(22, 22, 30, 0.6) !important;
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    
+}
+
+/* გეროლდის აღწერა (მაქსიმალური სიგანე) */
+.Gerold-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+/* =========================================
+   PROFILE IMAGE DELETE X BUTTON (HOVER)
+   ========================================= */
+
+/* კონტეინერი, რომელიც აკონტროლებს ჰოვერს */
+.avatar-container-wrapper {
+    position: relative;
+    display: block; 
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ფოტოს წაშლის X ღილაკის საწყისი მდგომარეობა */
+.avatar-delete-x {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 26px;
+    height: 26px;
+    background: rgba(255, 118, 117, 0.95); /* წითელი ფონი */
+    border: 2px solid rgba(255, 255, 255, 0.8); /* თეთრი ჩარჩო უკეთესი კონტრასტისთვის */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;            /* საწყისში დამალულია */
+    transform: scale(0);   /* საწყისში დაპატარავებულია */
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* რბილი გამოჩენის ეფექტი */
+    z-index: 10;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    padding: 0;
+    line-height: 1;
+}
+
+/* როდესაც მაუსს მივიტანთ მთლიან კონტეინერზე -> გამოჩნდეს X */
+.avatar-container-wrapper:hover .avatar-delete-x {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* უშუალოდ X ღილაკზე ჰოვერი (ოდნავ დიდდება და ფერს იცვლის) */
+.avatar-delete-x:hover {
+    background: #ff4757;
+    transform: scale(1.15);
+}
+
+
+/* CV-ის ჩამოტვირთვის ღილაკის Wrapper */
+.cv-download-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* CV-ის ჩამოტვირთვის ღილაკის Hover ეფექტი */
+.cv-download-wrapper:hover .cv-download-link {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+}
+
+/* CV-ის წაშლის X ღილაკი */
+.cv-delete-x {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 25px;
+    height: 25px;
+    background: rgba(255, 118, 117, 0.95);
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0; /* საწყისში დამალულია */
+    transform: scale(0); /* საწყისში დამალულია */
+    transition: all 0.2s ease-out;
+    z-index: 5;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* ჰოვერზე X-ის გამოჩენა */
+.cv-download-wrapper:hover .cv-delete-x {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* X-ის Hover ეფექტი */
+.cv-delete-x:hover {
+    background: #ff7675;
+    transform: scale(1.1);
+}
+
+/* =========================================
+   SOCIAL ICONS IN HERO
+   ========================================= */
+
+.social-icon-loop-wrapper {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.social-icon-loop-wrapper:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   PROFILE AVATAR IN HERO
+   ========================================= */
+
+.avatar-label-Gerold {
+    width: 280px;
+    height: 350px;
+    cursor: pointer;
+    display: inline-block;
+}
+.avatar-panel {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    border: 3px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+.avatar-hover-overlay-Gerold {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(39, 29, 116, 0.323);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.avatar-label-Gerold:hover .avatar-panel {
+    border-color: #6c5ce7;
+    box-shadow: 0 10px 30px rgba(108, 92, 231, 0.3);
+}
+.avatar-label-Gerold:hover .avatar-hover-overlay-Gerold {
+    opacity: 1;
+}
+
+@media (max-width: 991px) {
+    .Gerold-desc { text-align: center; margin-left: auto; margin-right: auto; }
+    .hero-cta-section { flex-direction: column; text-align: center; gap: 20px !important; }
+    .social-icon-icons-section { margin-left: 0 !important; }
+    .profile-avatar-Gerold { margin-top: 30px; }
+}
+/* ==========================================================================
+   🎯 AVATAR ALIGNMENT FIX FOR @444px AND SMALLER SCREEN
+   ========================================================================== */
+
+@media (max-width: 444px) {
+    /* 1. ვაქცევთ კონტეინერს სუფთა ბლოკად და ვსვამთ აბსოლუტურ ცენტრში */
+    .avatar-container-wrapper {
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        
+        /* 💡 რეკომენდაცია: მობილურზე მთლიანი აპარატის ზომა ოდნავ შეამცირეთ (მაგ: 130px-მდე), 
+           რათა დიზაინში უფრო პროპორციულად ჩაჯდეს. თუ გსურთ ძველი ზომა დარჩეს, უბრალოდ წაშალეთ ქვედა 2 ხაზი */
+        width: 250px !important;
+        height: 270px !important;
+    }
+
+    /* 2. ვზრუნავთ, რომ ლეიბლი და შიდა პანელი შეავსოს ახალი ზომა */
+    .avatar-label-Gerold,
+    .avatar-panel {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+    }
+
+    /* 3. სურათი ან კამერის აიქონი (Placeholder) ყოველთვის ცენტრში დარჩეს */
+    #profilePreview, 
+    #avatarPlaceholder {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* 4. თუ წაშლის ღილაკი (X) ზომის შეცვლისას ადგილს შეიცვლის, აქედან დააკორექტირეთ */
+    .avatar-delete-x {
+        top: -5px !important;
+        right: -5px !important;
+        z-index: 10;
+    }
+}
+@media (max-width: 413px) {
+    .avatar-container-wrapper {
+        width: 200px !important;
+        height: 230px !important;
+    }
+}
+@media (max-width: 576px) {
+    .glass-card {
+        /* ... ძველი წესები ... */
+        
+        /* 🎯 ეს კოდი გააფართოებს ბარათს ბუთსტრეპის კონტეინერის შიგნიდან */
+        margin-left: -30px !important;
+        margin-right: -30px !important;
+        width: calc(100% + 60px) !important;
+        max-width: calc(100% + 60px) !important;
+        border-radius: 15px !important;
+    }
+}
+
+/* პროფესიის TEXTAREA-ს რესპონსიული დიზაინი */
+.hero-profession-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    color: #a29bfe; 
+    
+    /* 🎯 ზომა ოდნავ შევამციროთ (მაქს 2.4rem), რადგან 2 ხაზზე გიგანტური ტექსტი ცუდად გამოჩნდება */
+    font-size: clamp(1.3rem, 4.5vw, 2.4rem); 
+    font-weight: 800;
+    width: 100%;
+    padding: 5px 0;
+    
+    transition: all 0.3s ease;
+    
+    /* 🛡️ სპეციალური წესები Textarea-სთვის */
+    resize: none;             /* მონიშნეთ, რომ მომხმარებელმა ხელით არ გაწელოს ჩარჩო */
+    overflow: hidden;         /* მალავს გვერდითა მახინჯ Scrollbar-ს */
+    font-family: inherit;     /* აიძულებს ბრაუზერს, გამოიყენოს საიტის ძირითადი ფონტი */
+    line-height: 1.3;
+}
+
+.hero-profession-input:focus {
+    outline: none;
+    border-bottom: 1px solid #6c5ce7;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* პლეისჰოლდერის ზომა */
+.hero-profession-input::placeholder {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    opacity: 0.4;
+}
+/* ==========================================================================
+   RESPONSIVE PROFESSION TEXT FIX
+   ========================================================================== */
+
+
+
+
+/* აღწერის (Textarea) ველის დიზაინი */
+.hero-desc-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    line-height: 1.6;
+    width: 100%;
+    max-width: 550px;
+    resize: none;
+    padding: 5px 0;
+    transition: all 0.3s ease;
+}
+.hero-desc-input:focus {
+    outline: none;
+    border-bottom: 1px solid #6c5ce7;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Placeholder-ის (მინიშნების) ფერი */
+.hero-profession-input::placeholder,
+.hero-desc-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: normal;
+}
+
+/* წაშლის ღილაკის ჰოვერი სოც. ქსელებზე */
+.hover-danger:hover {
+    color: #ff7675 !important;
+}
+/* --- DASHBOARD HERO SAVE BUTTON --- */
+.glass-card .btn-success,
+#portfolio-hero-form .btn-success,
+input[type="submit"].btn-success {
+    background: #6c5ce7 !important; /* საიტის ძირითადი იისფერი */
+    border-color: #6c5ce7 !important;
+    color: #ffffff !important;
+    font-weight: 500;
+    border-radius: 12PX; /* მომრგვალებული, თანამედროვე ფორმა */
+    padding: 10px 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+}
+
+
+.glass-card .btn-success:hover,
+#portfolio-hero-form .btn-success:hover {
+    background: #a29bfe !important; /* უფრო ღია, მბზინავი იისფერი */
+    border-color: #a29bfe !important;
+    transform: translateY(-2px); /* მსუბუქი წამოწევა */
+    box-shadow: 0 6px 20px rgba(162, 155, 254, 0.4);
+}
+.user-meta-info {
+    margin-top: 15px;
+    display: flex;
+    gap: 20px;
+    justify-content: center; /* ცენტრირება */
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.user-meta-info i {
+    color: #a29bfe; /* თქვენი საიტის იისფერი აქცენტი */
+    margin-right: 5px;
+}
+body.light-mode  .user-meta-info {
+    margin-top: 15px;
+    display: flex;
+    gap: 20px;
+    justify-content: center; /* ცენტრირება */
+    font-size: 0.9rem;
+    color: rgba(101, 101, 101, 0.8);
+}
+
+/* --- ABOUT DESCRIPTION TEXTAREA STYLES --- */
+
+.about-textarea-wrapper textarea {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    border-radius: 12px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    
+    /* 🎯 სკროლბარის მოშორება და ზომის შეცვლის დაბლოკვა */
+    overflow-y: hidden; /* მალავს ვერტიკალურ სკროლბარს */
+    resize: none;       /* უვლის გვერდს მარჯვენა ქვედა კუთხიდან ველის გაწელვას */
+}
+
+/* ეფექტი ველზე დაჭერისას (Focus) */
+.about-textarea-wrapper textarea:focus {
+    background: rgba(22, 22, 30, 0.8) !important;
+    border-color: #6c5ce7 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25) !important;
+    outline: none !important;
+    
+    /* ფოკუსის დროსაც იდეალურად დამალული იყოს */
+    overflow-y: hidden;
+}
+
+/* პლეისჰოლდერის (Placeholder) ფერი */
+.about-textarea-wrapper textarea::placeholder {
+    color: rgba(255, 255, 255, 0.3) !important;
+}
+/* =========================================
+   PROJECTS GRID & STACKS
+   ========================================= */
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+/* ახალი პროექტის დამატების ბარათი */
+.dash-add-card {
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    min-height: 200px;
+    transition: all 0.3s ease;
+}
+.dash-add-card:hover {
+    background: rgba(108, 92, 231, 0.2);
+    border-color: #6c5ce7;
+    transform: translateY(-5px);
+}
+
+/* პროექტის ბარათი */
+.dash-project-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    display: block;
+}
+.dash-project-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* ფოტოების დასტა (Stack Effect) */
+.dash-img-stack {
+    position: relative;
+    height: 160px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stack-img {
+    position: absolute;
+    width: 85%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* დასტების ბრუნვა და განლაგება Z-index-ით */
+.stack-3 { transform: rotate(-8deg) translateX(-15px); z-index: 1; opacity: 0.7; }
+.stack-2 { transform: rotate(8deg) translateX(15px); z-index: 2; opacity: 0.85; }
+.stack-1 { transform: rotate(0deg); z-index: 3; }
+
+/* ჰოვერზე დასტის გაშლა */
+.dash-project-card:hover .stack-3 { transform: rotate(-15deg) translateX(-25px); opacity: 0.9; }
+.dash-project-card:hover .stack-2 { transform: rotate(15deg) translateX(25px); opacity: 0.9; }
+.dash-project-card:hover .stack-1 { transform: scale(1.05); }
+
+/* ტექსტის შემოკლება (Truncate) */
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+
+
+
+
+

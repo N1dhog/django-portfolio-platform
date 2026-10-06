@@ -1,0 +1,533 @@
+/* =========================================
+   PUBLIC PROJECT DETAIL STYLES
+   ========================================= */
+
+/* მთავარი კონტეინერი */
+.glass-container {
+    display: flex;
+    height: calc(100vh - 100px);
+    background: rgba(22, 22, 30, 0.4);
+    backdrop-filter: blur(15px);
+}
+
+/* Sidebar სტილიზაცია */
+.glass-sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* პროექტების ბარათები სიაში */
+.project-card-public {
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+.project-card-public:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+.active-card {
+    background: rgba(108, 92, 231, 0.15) !important;
+    border-left-color: #6c5ce7;
+}
+
+/* მინი-სტეკების ეფექტი Sidebar-ში */
+.img-stack-mini {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+}
+.mini-stack-img {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mini-stack-img.bottom { transform: rotate(-10deg) translate(-2px, -2px); opacity: 0.5; }
+.mini-stack-img.top { z-index: 2; }
+
+/* გალერეის სექცია */
+/* =========================================
+   PUBLIC PROJECT DETAIL STYLES - გალერეის გასწორებული ნაწილი
+   ========================================= */
+
+/* გალერეის სექცია */
+.glass-gallery {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* Masonry Grid საჯარო ვერსია */
+.masonry-grid-public {
+    columns: 3;
+    column-gap: 1.5rem;
+}
+.masonry-item-public {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    position: relative; /* უზრუნველყოფს, რომ წაშლის ღილაკი და სურათი სწორად განლაგდეს */
+}
+
+/* სურათის კონტეინერი და ჰოვერი */
+.gallery-img-container {
+    position: relative;
+    cursor: zoom-in;
+    overflow: hidden; /* აუცილებელია, რომ გადიდებისას სურათი ჩარჩოდან არ გამოვიდეს */
+}
+
+.gallery-img-container img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* შავი გადაფარვა პლუსის აიქონით */
+.img-overlay-zoom {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    background: rgba(0, 0, 0, 0.4); /* მსუბუქი მუქი ფონი ჰოვერზე */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* ივენთები გადადის სურათზე, რომ კლიკი არ დაიბლოკოს */
+}
+
+/* ეფექტები მხოლოდ ჰოვერის დროს */
+.gallery-img-container:hover img { 
+    transform: scale(1.06); 
+}
+
+.gallery-img-container:hover .img-overlay-zoom { 
+    opacity: 1; 
+}
+
+
+/* კატეგორიის ბეიჯი Gerold სტილში */
+.badge-Gerold {
+    background: rgba(108, 92, 231, 0.15);
+    color: #a29bfe;
+    border: 1px solid rgba(108, 92, 231, 0.3);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+/* Lightbox სტილიზაცია */
+/* 🎯 ერთიანი სტილი ორივე გვერდის ლაითბოქსისთვის */
+.lightbox-overlay, .lightbox-overlay-public {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(10, 10, 15, 0.95) !important; /* მუქი, გეროლდის სტილის ფონი */
+    backdrop-filter: blur(12px) !important;
+    display: none; /* ამას JS აქცევს flex-ად კლიკზე */
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 99999 !important; /* ყველაზე მაღალი ინდექსი, რომ არაფერმა გადაფაროს */
+}
+
+/* ერთიანი სტილი თავად სურათისთვის */
+.lightbox-img, .lightbox-img-public {
+    max-width: 85% !important;
+    max-height: 85vh !important;
+    object-fit: contain !important;
+    border-radius: 16px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    animation: zoomInSmooth 0.25s ease-out;
+}
+
+/* დახურვის "X" ღილაკი ზედა მარჯვენა კუთხეში */
+.close-lightbox {
+    position: absolute !important;
+    top: 30px !important;
+    right: 40px !important;
+    background: none !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 4rem !important;
+    cursor: pointer !important;
+    transition: color 0.2s ease !important;
+}
+.close-lightbox:hover {
+    color: #ff4757 !important; /* ჰოვერზე წითლდება */
+}
+
+/* რბილი გამოჩენის ანიმაცია */
+@keyframes zoomInSmooth {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* სქროლბარის გალამაზება */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* რესპონსიულობა */
+@media (max-width: 991px) {
+    .glass-container { flex-direction: column; height: auto; }
+    .glass-sidebar { width: 100%; height: 300px; }
+    .masonry-grid-public { columns: 2; }
+}
+
+
+
+
+/* 📱 მობილური UI-ის ოპტიმიზაცია (ტელეფონებისთვის - 576px-მდე) */
+@media (max-width: 575.98px) {
+    
+    /* 1. გარე კონტეინერის პადინგის გაქრობა */
+    .hero-bg .container-fluid.px-4 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-top: 0 !important; /* მობილურზე ზედა სივრცის დაზოგვისთვის */
+    }
+
+    /* 2. მთავარი შუშის კონტეინერის სრული სიგანე და კუთხეების გასწორება */
+    .management-wrapper.glass-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+      
+        border-left: none !important;
+        border-right: none !important;
+        
+        /* 🎯 თუ desktop-ზე flex-ით იჯდა, მობილურზე გადაგვაქვს ვერტიკალურ განლაგებაზე */
+        display: flex !important;
+        flex-direction: column !important; 
+    }
+
+    /* 3. საიდბარის (პროექტების სიის) გასწორება */
+    .sidebar-projects.glass-sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-right: none !important; /* ვაშორებთ მარჯვენა ხაზს */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; /* ვამატებთ ქვედა ხაზს */
+    }
+    
+    .sidebar-projects .project-list {
+        max-height: 180px; /* მობილურზე პროექტების სია ძალიან რომ არ გაიწელოს */
+        overflow-y: auto;
+    }
+
+    /* 4. მთავარი დამნაშავე: გალერეის სექციის პადინგის მინიმიზაცია */
+    .gallery-section.glass-gallery {
+        /* 🎯 p-5-ს ვცვლით მინიმალური დაშორებით, რომ ფოტოები მაქსიმალურად გაიფართოვოს */
+        padding: 20px 12px !important; 
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* 5. პროექტის სათაურის ბლოკის მობილურზე გადაწყობა */
+    .gallery-section .d-flex.justify-content-between {
+        flex-direction: column !important; /* სათაური და ავტორის ღილაკი ჩამოჯდეს ერთმანეთის ქვეშ */
+        align-items: flex-start !important;
+        gap: 15px;
+    }
+    
+    .gallery-section .btn-gradient {
+        width: 100% !important; /* ავტორის ღილაკი გაიშალოს სრულ სიგანეზე */
+        text-align: center;
+    }
+
+    /* 6. ფოტოების ბადის (Masonry) იძულებითი გაფართოება */
+    .masonry-grid-public {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .masonry-item-public {
+        width: 100% !important; /* მობილურზე ფოტოები სათითაოდ დაჯდეს 100% სიგანით */
+        margin-bottom: 12px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* ადმინისტრაციული ღილაკები პროექტის ბარათზე */
+.admin-btns-glass {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.project-card-public:hover .admin-btns-glass {
+    opacity: 1;
+}
+.btn-glass-icon {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s ease;
+}
+.btn-glass-icon:hover.edit { background: #6c5ce7; border-color: #6c5ce7; }
+.btn-glass-icon:hover.delete { background: #ff4757; border-color: #ff4757; }
+
+/* ფორმების და ინფუთების შუშის სტილი */
+.glass-form-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.glass-input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
+.glass-input:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: #6c5ce7 !important;
+    box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25) !important;
+}
+.glass-input::placeholder { color: rgba(255, 255, 255, 0.3) !important; }
+
+/* ფოტოს ატვირთვის ზონა მესონრიში */
+.add-photo-glass {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+}
+.add-photo-glass:hover {
+    background: rgba(108, 92, 231, 0.1);
+    border-color: #6c5ce7;
+    color: white !important;
+}
+
+/* ფოტოს წაშლის "X" ღილაკი მესონრიზე */
+.delete-photo-glass {
+    background: rgba(255, 71, 87, 0.9);
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    opacity: 0; transform: scale(0.8);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+.group-hover-target:hover .delete-photo-glass {
+    opacity: 1; transform: scale(1);
+}
+.delete-photo-glass:hover {
+    background: #ff4757;
+    color: white; transform: scale(1.1) !important;
+}
+
+/* შუშის მოდალი */
+.glass-modal {
+    background: rgba(22, 22, 30, 0.85) !important;
+    backdrop-filter: blur(20px);
+}
+
+
+
+/* =========================================
+   SELECT2 DROPDOWN GLASS STYLES (მუქი თემა)
+   ========================================= */
+
+/* ჩამოსაშლელი კონტეინერის ფონი */
+.select2-container--default .select2-dropdown {
+    background-color: #16161e !important; /* მუქი, გეროლდის სტილის ფონი */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px);
+    z-index: 999999; /* რომ მოდალშიც ყველაფერზე მაღლა დადგეს */
+}
+
+/* ძებნის ინფუთი ჩამოსაშლელი სიის შიგნით */
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
+
+/* ელემენტების (ოპციების) ტექსტის ფერი */
+.select2-container--default .select2-results__option {
+    color: rgba(255, 255, 255, 0.8) !important;
+    background-color: transparent !important;
+    padding: 8px 12px;
+}
+
+/* ელემენტზე მაუსის მიტანა (Hover) ან კლავიატურით მონიშვნა */
+.select2-container--default .select2-results__option--highlighted[aria-selected],
+.select2-container--default .select2-results__option[aria-selected="true"] {
+    background-color: rgba(108, 92, 231, 0.25) !important; /* იისფერი ჰოვერი */
+    color: #a29bfe !important; /* ღია იისფერი ტექსტი */
+}
+
+/* მრავალჯერადი არჩევანისას (Multiple) უკვე არჩეული ბეიჯების სტილი თავად ინფუთში */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: rgba(108, 92, 231, 0.2) !important;
+    border: 1px solid rgba(108, 92, 231, 0.4) !important;
+    color: #a29bfe !important;
+    border-radius: 6px;
+    padding: 2px 8px;
+}
+
+/* არჩეული ბეიჯის წაშლის "X" ღილაკი */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #ff4757 !important;
+    margin-right: 5px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background-color: transparent !important;
+}
+
+/* კონტეინერს სჭირდება ფარდობითი პოზიციონირება */
+.gallery-img-container {
+    position: relative;
+}
+
+/* ვასწორებთ ოვერლეის, რომ ელემენტები შიგნით სწორად განლაგდეს */
+.img-overlay-zoom {
+    pointer-events: auto !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+/* ლუპის ზონა იკავებს ცენტრს */
+.zoom-trigger-zone {
+    cursor: pointer;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* ლაიქის ბლოკის პოზიცია სურათის შიგნით (მაგალითად, ქვედა მარჯვენა კუთხეში) */
+.public-gallery-like {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    z-index: 10; /* რომ სურათის ზუმის კლიკმა არ გადაფაროს */
+    background: rgba(0, 0, 0, 0.4); /* ოდნავ მუქი მრგვალი ფონი უკეთესი ხილვადობისთვის */
+    padding: 5px 12px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    pointer-events: auto !important;
+    z-index: 9999 !important;
+}
+
+/* როცა არ არის დალაიქებული, თეთრი გული გამოჩნდეს მუქ ფონზე */
+.public-gallery-like .fa-regular.text-white {
+    color: #ffffff !important;
+    transition: transform 0.2s;
+}
+
+.public-gallery-like .like-btn:hover .like-icon {
+    transform: scale(1.15); /* მაუსის მიტანისას გული ოდნავ დიდდება */
+}
+
+/* 📱 მობილური ვერსიისთვის (ეკრანებისთვის, რომლებიც 768px-ზე პატარაა) */
+@media (max-width: 767.98px) {
+    
+    /* 1. ვაიძულებთ ოვერლეის, რომ მუდმივად ჩანდეს */
+    .masonry-item-public .img-overlay-zoom {
+        opacity: 1 !important;        /* 🎯 მუდმივად ჩანს */
+        visibility: visible !important; /* 🎯 მუდმივად ჩანს */
+        background: transparent !important; /* 🎯 ვაშორებთ მუქ ფონს მთლიან სურათზე, რომ სურათი კარგად ჩანდეს */
+    }
+    
+    /* 2. ვმალავთ ლუპის აიქონს */
+    /* რადგან სურათზე ნებისმიერ ადგილას დაჭერა ხსნის ზუმს, მობილურზე ლუპის აიქონი ზედმეტია და ვიზუალს ტვირთავს */
+    .masonry-item-public .fa-magnifying-glass-plus {
+        display: none !important;
+    }
+    
+    /* 3. ვასწორებთ ლაიქის ბლოკის სტილს მობილურისთვის */
+    .masonry-item-public .public-gallery-like {
+        opacity: 1 !important;
+        visibility: visible !important;
+        
+        /* ოდნავ ვამცირებთ ზომას, რომ მობილურზე ძალიან დიდი არ გამოჩნდეს */
+        padding: 4px 10px !important;
+        bottom: 10px !important;
+        right: 10px !important;
+        
+        /* ვინარჩუნებთ მუქ ფონს მხოლოდ გულის გარშემო, უკეთესი ხილვადობისთვის */
+        background: rgba(0, 0, 0, 0.5) !important;
+        backdrop-filter: blur(3px);
+    }
+    
+    /* 4. ოდნავ ვამცირებთ გულის და ციფრის ზომას */
+    .masonry-item-public .public-gallery-like .like-icon {
+        font-size: 1rem !important; /* 16px */
+    }
+    
+    .masonry-item-public .public-gallery-like .likes-count {
+        font-size: 0.9rem !important; /* 14.4px */
+    }
+}
+
+
+
+
+
+
+/* წაშლის ღილაკის ბაზისური სტილი */
+.gallery-img-container .delete-photo-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 100; /* overlay-ზე მაღლა, რომ ყოველთვის დაეჭიროს */
+    background: rgba(15, 15, 15, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    padding: 0;
+}
+
+/* ჰოვერის ეფექტი - წითლდება ნაზად */
+.gallery-img-container .delete-photo-btn:hover {
+    background: #ff7675 !important;
+    color: white !important;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 118, 117, 0.4);
+}
+
+/* ნაგულისხმევად შეგიძლიათ ღილაკი ოდნავ დამალოთ და მხოლოდ ფოტოზე მიტანისას (Hover) გამოაჩინოთ (სურვილისამებრ) */
+.gallery-img-container .delete-photo-btn {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.gallery-img-container:hover .delete-photo-btn {
+    opacity: 1;
+    visibility: visible;
+}

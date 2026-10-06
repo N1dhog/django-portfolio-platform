@@ -1,0 +1,113 @@
+{% extends 'webapp/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="hero-bg py-5" style="min-height: 100vh;">
+    <div class="container-fluid mt-4 px-4">
+        
+        <div class="management-wrapper glass-container rounded-5 overflow-hidden shadow-lg border border-white border-opacity-10">
+            
+            <div class="sidebar-projects glass-sidebar border-end border-white border-opacity-10">
+                <div class="p-4 border-bottom border-white border-opacity-10">
+                    <h5 class="text-white fw-bold m-0"><i class="fa-solid fa-layer-group me-2 text-primary"></i>პროექტები</h5>
+                </div>
+                
+                <div class="project-list custom-scrollbar">
+                    {% for p in projects %}
+                    <div class="project-card-public {% if p.id == active_project.id %}active-card{% endif %}" 
+                         data-url="{% url 'public_project_detail' p.id %}" 
+                         onclick="navigateToProject(this)">
+                        
+                        <div class="card-content-wrapper d-flex align-items-center gap-3">
+                            <div class="img-stack-mini">
+                                {% with project_photos=p.photos.all|dictsortreversed:"id"|slice:":2" %}
+                                    {% if project_photos|length >= 2 %}
+                                        <img src="{{ project_photos.1.image.url }}" class="mini-stack-img bottom">
+                                        <img src="{{ project_photos.0.image.url }}" class="mini-stack-img top">
+                                    {% elif project_photos|length == 1 %}
+                                        <img src="{{ project_photos.0.image.url }}" class="mini-stack-img top">
+                                    {% else %}
+                                        <div class="mini-stack-img top d-flex align-items-center justify-content-center bg-dark">
+                                            <i class="fa-regular fa-image text-white-50 small"></i>
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                            
+                            <div class="project-info-mini overflow-hidden">
+                                <h6 class="mb-1 text-white text-truncate">{{ p.title }}</h6>
+                                <p class="text-white-50 m-0 text-truncate x-small">{{ p.description|truncatechars:40 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="gallery-section glass-gallery p-5 custom-scrollbar">
+                
+                <div class="d-flex justify-content-between align-items-start mb-5 animate-fade-up">
+                    <div class="project-header-main">
+                        <h1 class="text-white fw-bold mb-2 display-7">{{ active_project.title }}</h1>
+                        <p class="text-white-50 fs-7 mb-3 lh-base" style="max-width: 750px;">{{ active_project.description }}</p>
+                        
+                        <div class="d-flex gap-2 flex-wrap">
+                            {% for cat in active_project.categories.all %}
+                                <span class="badge badge-Gerold">{{ cat.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <a href="{% url 'public_profile' active_project.user.username %}" class="btn btn-primary btn-gradient px-4 py-2 rounded-pill shadow-sm">
+                        <i class="fa-solid fa-user-circle me-2"></i> ავტორი
+                    </a>
+                </div>
+
+                {% if active_project.photos.all %}
+                <div class="masonry-grid-public">
+    {% for photo in active_project.photos.all %}
+    <div class="masonry-item-public animate-fade-up-delayed">
+        <div class="gallery-img-container rounded-4 overflow-hidden shadow-lg position-relative">
+            
+            <img src="{{ photo.image.url }}" alt="Project Photo" onclick="executeZoom('{{ photo.image.url }}')">
+               
+            <div class="img-overlay-zoom">
+                <div class="zoom-trigger-zone" onclick="executeZoom('{{ photo.image.url }}')">
+                    
+                </div>
+                
+                <div class="project-likes d-inline-flex align-items-center public-gallery-like">
+    <button class="btn btn-link p-0 text-decoration-none shadow-none like-btn" 
+            data-url="{% url 'like_project' photo.id %}"
+            data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}"
+            onclick="event.stopPropagation();"> <i class="{% if user in photo.likes.all %}fa-solid text-purple{% else %}fa-regular text-white{% endif %} fa-heart fs-5 like-icon"></i>
+    </button>
+    
+    <span class="ms-2 fw-bold text-white likes-count">{{ photo.total_likes }}</span>
+</div>
+            </div>
+            
+        </div>
+    </div>
+    {% endfor %}
+</div>
+                {% else %}
+                    <div class="text-center py-5 mt-5 animate-fade-up">
+                        <div class="text-white-50 opacity-25 mb-3">
+                            <i class="fa-regular fa-images fa-5x"></i>
+                        </div>
+                        <h4 class="text-white-50 fw-light">ამ პროექტში ფოტოები ჯერ არ არის ატვირთული.</h4>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="lightbox-overlay" id="zoomLightbox" onclick="closeZoom()">
+    <button class="close-lightbox" onclick="closeZoom()">×</button>
+    <img src="" id="zoomImage" class="lightbox-img" onclick="event.stopPropagation();">
+</div>
+
+{% endblock %}

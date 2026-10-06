@@ -1,0 +1,484 @@
+
+body {
+    background-color: #0b0b0f;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #ff7675, #6c5ce7);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 1. HERO სექცია PARALLAX ეფექტით */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.parallax-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 120%;
+    background-image: url('https://picsum.photos/id/1050/1920/1080');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(11, 11, 15, 0.4), #0b0b0f);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1px;
+}
+
+.hero-subtext {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.hero-btn {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+    transition: all 0.3s ease;
+}
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.6);
+    color: white;
+}
+
+
+
+
+
+.gallery-cta-wrapper {
+    position: relative;
+    padding: 120px 0;
+    /* პარალაქსის ფონი - შეგიძლია შენი სურათიც ჩასვა url()-ში */
+    background: linear-gradient(-45deg, #0f0f16, #161622, #0a0a10);
+    background-size: 400% 400%;
+    animation: ctaBgGlow 15s ease infinite;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+@keyframes ctaBgGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.gallery-cta-container {
+    position: relative;
+    z-index: 2;
+}
+
+
+.text-accent {
+    color: #a29bfe; /* საიტის იისფერი აქცენტი */
+    text-shadow: 0 0 25px rgba(162, 155, 254, 0.5);
+}
+
+.text-light-50 {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+
+/* მოწოდების Glass ღილაკი */
+.btn-glass-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(162, 155, 254, 0.15);
+    border: 1px solid rgba(162, 155, 254, 0.3);
+    border-radius: 50px;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.btn-glass-cta:hover {
+    background: rgba(162, 155, 254, 0.3);
+    border-color: #a29bfe;
+    transform: translateY(-4px);
+    color: #ffffff;
+    box-shadow: 0 15px 40px rgba(162, 155, 254, 0.4);
+}
+
+/* =========================================
+   ANIMATED GRID (მოძრავი სვეტები)
+   ========================================= */
+
+.animated-gallery-grid {
+    display: flex;
+    gap: 20px;
+    height: 550px; /* სექციის სიმაღლე */
+    overflow: hidden;
+    transform: rotate(-6deg) scale(1.1); /* დახრილი 3D ეფექტი */
+    justify-content: center;
+}
+
+
+.mask-top, .mask-bottom {
+    position: absolute;
+    
+    left: -10px; 
+    right: -10px;
+    height: 180px;
+    
+    z-index: 5;
+    pointer-events: none;
+    transform: rotate(-6deg) scale(1.1);
+    border-radius: 20px;
+    
+}
+
+.mask-top {
+    top: -20px;
+    
+    background: linear-gradient(to bottom, rgba(45, 59, 63, 0.596) 10%, transparent 100%);
+}
+
+.mask-bottom {
+    bottom: -20px;
+    background: linear-gradient(to top, rgba(162, 155, 254, 0.468) 10%, transparent 100%);
+}
+
+.grid-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 45%;
+}
+
+.grid-col img {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(0.8);
+}
+
+/* ჰოვერზე ანიმაცია ჩერდება და სურათი ნათდება */
+.grid-col img:hover {
+    transform: scale(1.03);
+    filter: brightness(1.1);
+    z-index: 10;
+}
+
+
+.col-up { animation: scrollGridUp 20s linear infinite; }
+.col-down { animation: scrollGridDown 20s linear infinite; }
+
+@keyframes scrollGridUp {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); } 
+}
+
+@keyframes scrollGridDown {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
+}
+
+
+.parallax-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+    animation: floatOrb 12s ease-in-out infinite alternate;
+}
+
+.circle-1 {
+    width: 400px; height: 400px;
+    background: rgba(162, 155, 254, 0.262); /* იისფერი ნათება */
+    top: -150px; left: -100px;
+}
+
+.circle-2 {
+    width: 500px; height: 500px;
+    background: rgba(45, 52, 54, 0.484); /* მუქი რუხი სიღრმისთვის */
+    bottom: -200px; right: -150px;
+    animation-delay: -5s;
+}
+
+@keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(40px, 60px) scale(1.1); }
+}
+
+
+@media (max-width: 991px) {
+    .animated-gallery-grid {
+        height: 400px;
+        transform: rotate(0) scale(1); /* მობილურზე სწორდება */
+        margin-top: 40px;
+    }
+}
+
+
+
+
+
+/*  სტატისტიკის სექცია  */
+.stats-section {
+    position: relative;
+    padding: 3rem 0;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ff7675;
+}
+
+.stat-label {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.title-underline {
+    width: 60px;
+    height: 4px;
+    background: #6c5ce7;
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+/* FEATURES სექცია  */
+.features-section {
+    padding: 6rem 0;
+}
+
+.feature-box {
+    background: #121218;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background: rgba(108, 92, 231, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-icon {
+    font-size: 1.6rem;
+    color: #6c5ce7;
+}
+
+.feature-box:hover {
+    transform: translateY(-8px);
+    background: #161622;
+    border-color: rgba(108, 92, 231, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+
+.trending-preview-section {
+    padding: 0 0 6rem 0;
+}
+
+.trending-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.trending-card img {
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.card-overlay {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%;
+    padding: 30px 20px 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.trending-card:hover img {
+    transform: scale(1.05);
+}
+
+.trending-card:hover .card-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/*EXPLORE CTA  */
+.explore-cta-section {
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.explore-parallax-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 130%;
+    background-image: url('https://picsum.photos/id/1055/1920/1080');
+    background-attachment: fixed; 
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.explore-section-btn {
+    background: #ffffff;
+    color: #111115;
+    font-weight: 600;
+    border-radius: 30px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.explore-section-btn:hover {
+    background: #6c5ce7;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+}
+
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up { animation: fadeInUp 0.8s ease forwards; }
+.animate-fade-up-delayed { animation: fadeInUp 0.8s ease 0.2s forwards; opacity: 0; }
+.animate-fade-up-delayed-more { animation: fadeInUp 0.8s ease 0.4s forwards; opacity: 0; }
+
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 2.5rem; }
+    .hero-subtext { font-size: 1rem; }
+    .parallax-bg, .explore-parallax-bg {
+        background-attachment: scroll; /* მობილურებზე Parallax ითიშება ოპტიმიზაციისთვის */
+    }
+    .features-section, .explore-cta-section { padding: 4rem 0; }
+}
+
+
+
+
+
+
+.explore-cta-section .hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(10, 10, 15, 0.85), rgba(18, 18, 24, 0.645));
+    z-index: 2;
+}
+
+
+.z-index-2 {
+    z-index: 3 !important; 
+}
+
+.explore-cta-section h2 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.max-w-600 {
+    max-width: 600px;
+}
+
+
+.explore-section-btn {
+    background: #6c5ce7;
+    color: #ffffff !important;
+    font-weight: 600;
+    border-radius: 30px;
+    font-size: 1.05rem;
+    letter-spacing: 0.3px;
+    box-shadow: 0 10px 25px rgba(108, 92, 231, 0.3);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    border: 1px solid transparent;
+}
+
+.explore-section-btn:hover {
+    background: #5a4bcf;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(108, 92, 231, 0.5);
+    color: #ffffff !important;
+}
+
+.explore-section-btn i {
+    transition: transform 0.3s ease;
+}
+
+.explore-section-btn:hover i {
+    transform: rotate(45deg); 
+}
+
+
+@media (max-width: 768px) {
+    .explore-parallax-bg {
+        background-attachment: scroll;
+    }
+    .explore-cta-section h2 {
+        font-size: 1.75rem;
+    }
+}

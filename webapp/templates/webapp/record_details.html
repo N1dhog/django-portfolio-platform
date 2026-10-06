@@ -1,0 +1,33 @@
+{% extends 'webapp/base.html' %}
+{% block content %}
+<div class="hero-bg d-flex align-items-center justify-content-center">
+    <div class="glass-card shadow-lg p-5 rounded-4" style="max-width: 600px; width: 100%;">
+        <h3 class="mb-4 text-center fw-bold text-white-40">
+            {% if record %}ჩანაწერის განახლება{% else %}ჩანაწერის დამატება{% endif %}
+        </h3>
+        <hr class="border-secondary mb-4">
+
+        <form method="POST" class="custom-django-form mb-4">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <button class="btn btn-primary btn-gradient w-100 py-2 mt-3 fw-bold" type="submit">
+                {% if record %} განახლება {% else %} დამატება {% endif %}
+            </button>
+        </form>
+
+        <div class="record-wrapper d-flex gap-2 justify-content-center mt-3">
+            {% if record %}
+            <form method="POST" class="m-0">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger px-4" type="submit" name="delete_record">
+                    წაშლა
+                </button>
+            </form>
+            {% endif %}
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-light text-white-50 px-4">უკან</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

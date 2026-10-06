@@ -1,0 +1,175 @@
+{% extends 'webapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="parallax-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content text-center">
+        <h1 class="hero-title mb-3 animate-fade-up">
+            შექმენი პორტფოლიო <br> და <span class="text-gradient">აღმოაჩინე</span>
+        </h1>
+        <p class="hero-subtext mb-4 animate-fade-up-delayed">
+            წარმოაჩინე შენი გამოცდილება და უნარები თანამედროვე<br> პროფესიონალური პროფილით.
+        </p>
+        <div class="animate-fade-up-delayed-more">
+            <a href="{% url 'register' %}" class="btn hero-btn px-5 py-3">
+                შექმენი ანგარიში <i class="fa fa-user-plus ms-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<section class="gallery-cta-wrapper">
+    <div class="parallax-circle circle-1"></div>
+    <div class="parallax-circle circle-2"></div>
+
+    <div class="container gallery-cta-container">
+        <div class="row align-items-center">
+            
+            <div class="col-lg-5 mb-5 mb-lg-0 text-center text-lg-start position-relative z-2">
+                <h2 class="display-5 fw-bold text-white-45 mb-4">
+                    აღმოაჩინე ნამდვილი <br><span class="text-accent">შთაგონება</span>
+                </h2>
+                <p class="text-light-50 mb-5">
+                    გაეცანი საუკეთესო კრეატორების ნამუშევრებს. იპოვე ახალი იდეები, აღმოაჩინე თანამედროვე ტრენდები და გააზიარე შენი შემოქმედება ჩვენს გალერეაში.
+                </p>
+                
+                <a href="{% url 'explore' %}" class="btn-glass-cta">
+                    <span>გალერეაში გადასვლა</span>
+                    <i class="fa-solid fa-arrow-right ms-3"></i>
+                </a>
+            </div>
+
+            <div class="col-lg-7 position-relative z-2">
+                
+                <div class="mask-top"></div>
+                <div class="mask-bottom"></div>
+
+                <div class="animated-gallery-grid">
+                    
+                    <div class="grid-col col-up">
+                        <img src="https://picsum.photos/400/600?random=1" alt="Art">
+                        <img src="https://picsum.photos/400/450?random=2" alt="Art">
+                        <img src="https://picsum.photos/400/700?random=3" alt="Art">
+                        <img src="https://picsum.photos/400/600?random=1" alt="Art">
+                        <img src="https://picsum.photos/400/450?random=2" alt="Art">
+                        <img src="https://picsum.photos/400/700?random=3" alt="Art">
+                    </div>
+
+                    <div class="grid-col col-down mt-5">
+                        <img src="https://picsum.photos/400/550?random=4" alt="Art">
+                        <img src="https://picsum.photos/400/650?random=5" alt="Art">
+                        <img src="https://picsum.photos/400/500?random=6" alt="Art">
+                        <img src="https://picsum.photos/400/550?random=4" alt="Art">
+                        <img src="https://picsum.photos/400/650?random=5" alt="Art">
+                        <img src="https://picsum.photos/400/500?random=6" alt="Art">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="features-section">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">რატომ Gallery.Ge?</h2>
+            <div class="title-underline"></div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-box p-5 h-100">
+                    <div class="icon-wrapper mb-4">
+                        <i class="fa fa-id-card feature-icon"></i>
+                    </div>
+                    <h4>პროფესიონალური პროფილი</h4>
+                    <p class="text-white-50 mt-3">
+                        შექმენი მიმზიდველი პროფილი, რომელსაც დამსაქმებლები და პოტენციური დამკვეთები მარტივად იხილავენ.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-box p-5 h-100">
+                    <div class="icon-wrapper mb-4">
+                        <i class="fa fa-briefcase feature-icon"></i>
+                    </div>
+                    <h4>უნიკალური პროექტები</h4>
+                    <p class="text-white-50 mt-3">
+                        ატვირთე შენი ციფრული ნამუშევრები მაღალი ხარისხით, დააჯგუფე კატეგორიებად და წარადგინე სრულყოფილად.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-box p-5 h-100">
+                    <div class="icon-wrapper mb-4">
+                        <i class="fa fa-users feature-icon"></i>
+                    </div>
+                    <h4>საზოგადოება & კავშირები</h4>
+                    <p class="text-white-50 mt-3">
+                        აღმოაჩინე სხვა წევრები, დაუკავშირდი ინდუსტრიის პროფესიონალებს და განვითარდი შემოქმედებით გარემოში.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="trending-preview-section">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">დღის პოპულარული ნამუშევრები</h2>
+            <div class="title-underline"></div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-sm-6 col-md-4">
+                <div class="trending-card">
+                    <img src="https://picsum.photos/id/1062/600/450" alt="Trending" class="img-fluid">
+                    <div class="card-overlay">
+                        <h5>Neon Cyberpunk UI</h5>
+                        <p>ავტორი: @alex_art</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="trending-card">
+                    <img src="https://picsum.photos/id/1069/600/450" alt="Trending" class="img-fluid">
+                    <div class="card-overlay">
+                        <h5>3D Abstract Sculpture</h5>
+                        <p>ავტორი: @geo_mesh</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="trending-card">
+                    <img src="https://picsum.photos/id/1084/600/450" alt="Trending" class="img-fluid">
+                    <div class="card-overlay">
+                        <h5>Minimalist Brand Book</h5>
+                        <p>ავტორი: @design_studio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="explore-cta-section">
+    <div class="explore-parallax-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container position-relative text-center z-index-2">
+        <h2 class="mb-3">გადადი გალერეაში და აღმოაჩინე</h2>
+        <p class="text-white-50 mb-4 max-w-600 mx-auto">
+            დაათვალიერე ასობით ნიჭიერი ქართველი დიზაინერისა და ხელოვანის ციფრული შემოქმედება ერთ სივრცეში.
+        </p>
+        <a href="{% url 'explore' %}" class="btn explore-section-btn px-5 py-3">
+            გალერეა <i class="fa-solid fa-compass ms-2"></i>
+        </a>
+    </div>
+</section>
+{% endblock %}

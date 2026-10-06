@@ -1,0 +1,630 @@
+/* ==========================================================================
+   1. VARIABLES & BASE LAYOUT (მთავარი კონტეინერები და ბადე)
+   ========================================================================== */
+:root {
+    --pill-width: 170px;
+    --pill-height: 52px;
+    --accent-color: #a29bfe; /* გეროლდის საფირმო იისფერი */
+    --hover-red: #ff7675;    /* თქვენი საწყისი აქცენტის ფერი */
+}
+.explore-back {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    /* min-height: 100vh;  <-- ეს წაშალეთ ან დააკომენტარეთ */
+    
+    background: linear-gradient(-45deg, #0a0a14, #120e2a, #1a122c, #09090f);
+    background-size: 400% 400%;
+    animation: exploreGradientAnimate 15s ease infinite;
+    background-attachment: fixed;
+}
+
+/* მოძრაობის ტრაექტორია */
+@keyframes exploreGradientAnimate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.explore-container {
+    padding: 20px 40px;
+    max-width: 1600px;
+   
+    margin: 6rem auto;
+}
+
+/* Masonry Grid კონტეინერი */
+.explore-masonry {
+    column-count: 5;
+    column-gap: 24px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* ==========================================================================
+   2. BEHANCE CARD COMPONENT (ბარათის სტრუქტურა)
+   ========================================================================== */
+
+/* ბარათის მთლიანი მომცველი (სურათი + ინფო ქვემოთ) */
+.explore-item {
+    break-inside: avoid;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+/* სურათის უშუალო ჩარჩო (აქ ხდება ოვერფლოუს დამალვა) */
+.explore-img-wrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: zoom-in;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.explore-img-wrapper img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ჰოვერ ეფექტი ფოტოზე */
+.explore-img-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   3. HOVER OVERLAY & PROJECT TITLE (ეფექტები ფოტოზე მაუსის მიტანისას)
+   ========================================================================== */
+.explore-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 40px 20px 20px;
+    background: linear-gradient(to top, rgba(10, 10, 15, 0.95) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none; 
+    z-index: 10;
+}
+
+.explore-img-wrapper:hover .explore-overlay {
+    opacity: 1;
+}
+
+/* პროექტის სახელი გრადიენტზე */
+.project-title {
+    color: #ffffff;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transform: translateY(12px);
+    transition: transform 0.3s ease;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    
+}
+
+.explore-img-wrapper:hover .project-title {
+    transform: translateY(0);
+    
+}
+
+/* ==========================================================================
+   4. AUTHOR INFO BLOCK (ავტორის ბლოკი სურათის ქვემოთ)
+   ========================================================================== */
+.explore-info {
+    padding: 0 ;
+    
+    color:white;
+}
+
+.author-badge {
+    display: flex;
+    align-items: center;
+    color: #ffffff !important; /* 🎯 ტექსტი ყოველთვის იქნება თეთრი */
+    text-decoration: none;
+    
+    transition: color 0.2s ease;
+    
+}
+.author-name {
+    font-weight: 700;
+    font-size: 0.90rem;
+    color: #ffffffb3 !important;
+}
+
+/* ჰოვერის დროს (მაუსის მიტანისას) გადავა იისფერში, როგორც გეროლდის სტილს შეეფერება */
+.author-name:hover {
+    color: var(--accent-color) !important; /* ან #a29bfe !important */
+}
+
+.author-avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+/* ჰოვერი ავტორის სახელზე/ავატარზე */
+.author-badge:hover {
+    color: var(--accent-color);
+}
+
+.author-badge:hover .author-avatar {
+    transform: scale(1.05);
+    border-color: var(--accent-color);
+}
+
+/* ==========================================================================
+   5. BEHANCE CATEGORY FILTER PILLS (კატეგორიების ჰორიზონტალური სკროლერი)
+   ========================================================================== */
+/* 🎯 ფილტრის წებოვანი კონტეინერი */
+.behance-filter-container {
+    position: -webkit-sticky;
+    position: sticky;
+    
+    z-index: 1010; /* უზრუნველყოფს, რომ ფოტოებზე მაღლა იდგეს სქროლვისას */
+
+    /* 🔮 Glassmorphism ფონი */
+    
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+   
+    /* დამატებითი ვიზუალი */
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: background 0.3s ease;
+    border-radius:  12px;
+}
+
+/* 📱 ტელეფონის ვერსიისთვის, სადაც გვერდებზე 100%-ით იშლება */
+@media (max-width: 575.98px) {
+    .behance-filter-container {
+        top: 60px; /* მობილურის ნავბარის სიმაღლე ხშირად უფრო პატარაა */
+        padding: 10px 5px;
+    }
+}
+/* როცა JavaScript მიამაგრებს კლასს */
+.sticky-active {
+    position: fixed !important;
+    top: 70px; /* აქ ჩაწერეთ თქვენი ნავიგაციის ბარის სიმაღლე */
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    
+    /* შუშის ეფექტი */
+    background: rgba(255, 255, 255, 0.437) !important;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ამ დროს გალერეა ოდნავ დაბლა უნდა ჩამოვიდეს, რომ ფილტრმა არ დაუფაროს */
+.sticky-active + .explore-masonry {
+    margin-top: 80px; 
+}
+
+.behance-filter-wrapper {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: 100%;
+    padding: 5px 0;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;     
+}
+
+.behance-filter-wrapper::-webkit-scrollbar {
+    display: none;            
+}
+
+.category-pill {
+    position: relative;
+    flex: 0 0 var(--pill-width);
+    height: var(--pill-height);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.category-pill .pill-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.35) contrast(1.1);
+    transition: filter 0.2s ease;
+    z-index: 1;
+}
+
+.category-pill .pill-text {
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: center;
+    padding: 0 10px;
+    user-select: none;
+}
+
+.category-pill:hover {
+    transform: translateY(-2px);
+}
+
+.category-pill:hover .pill-bg {
+    filter: brightness(0.45) contrast(1.2);
+}
+
+.category-pill.active {
+    border: 2px solid #ffffff;
+}
+
+.category-pill.active .pill-bg {
+    filter: brightness(0.25);
+}
+
+/* სკროლის ისრები */
+.scroll-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    color: #111111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    transition: opacity 0.2s ease, transform 0.2s ease-out;
+}
+
+.scroll-arrow:hover {
+    background: #ffffff;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.left-arrow { left: 10px; }
+.right-arrow { right: 10px; }
+
+/* ==========================================================================
+   6. LIGHTBOX / ZOOM (ფოტოს გადიდების მოდალი)
+   ========================================================================== */
+
+
+/* ერთმანეთის გვერდით მოსათავსებელი კონტეინერი */
+.lightbox-content-wrapper {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    height: 80vh; /* ეკრანის სიმაღლის 80% */
+    background: rgba(18, 18, 29, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+    animation: zoomInLightbox 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* მარცხენა სვეტი - სურათი (იკავებს 70%-ს) */
+.lightbox-left-col {
+    flex: 7;
+    background: #08080d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#lightboxImg {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* მარჯვენა სვეტი - ინფორმაცია (იკავებს 30%-ს) */
+.lightbox-right-col {
+    flex: 3;
+    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.02);
+    min-width: 300px;
+}
+
+.lightbox-card-inner {
+    width: 100%;
+}
+
+#lightboxProjectTitle {
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+}
+
+/* ანიმაცია მთლიანი ბლოკის გამოჩენისთვის */
+@keyframes zoomInLightbox {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 📱 რესპონსიულობა: მობილურებზე ისევ ვერტიკალური გახდება, რომ არ დავიწროვდეს */
+@media (max-width: 867px) {
+    /* მთლიანი კონტეინერი იკავებს ეკრანის თითქმის სრულ სიმაღლეს */
+    .lightbox-content-wrapper {
+        flex-direction: column !important;
+        height: 90vh !important; /* მკაცრად განვსაზღვროთ სიმაღლე, რომ შიდა ელემენტები სწორად განაწილდეს */
+        max-height: 90vh !important;
+        width: 94% !important;
+        background: rgba(14, 14, 23, 0.98) !important;
+        border-radius: 20px !important;
+    }
+    
+    /* 1. სურათის სვეტი - იკავებს მაქსიმალურ ხელმისაწვდომ სივრცეს (Flex-grow: 1) */
+    .lightbox-left-col {
+        flex: 1 !important; /* ეუბნება ბრაუზერს, რომ მთელი თავისუფალი ადგილი მისცეს სურათს */
+        width: 100% !important;
+        height: auto !important;
+        padding: 50px 15px 10px 15px !important; /* 50px ზემოდან - იცავს სურათს მოჭრისგან */
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        overflow: hidden !important;
+    }
+    
+    /* თავად სურათი იკუმშება ჩარჩოს მიხედვით და არასდროს იჭრება */
+    #lightboxImg {
+        max-width: 100% !important;
+        max-height: 100% !important; /* ავსებს მარტო თავის სვეტს და არ გადადის დაბლა */
+        object-fit: contain !important;
+        border-radius: 12px !important;
+    }
+    
+    /* 2. 🎯 ინფორმაციის ბლოკი - იკუმშება ეკრანთან ერთად (Flex: none) */
+    .lightbox-right-col {
+        flex: none !important; /* უარს ამბობს ზედმეტ სივრცეზე */
+        width: 100% !important;
+        padding: 10px 20px 25px 20px !important; /* მინიმალური პედინგები, რომ სიმაღლე დავზოგოთ */
+        background: rgba(255, 255, 255, 0.01) !important;
+    }
+
+    /* შიდა ელემენტების ზომების დაპატარავება ეკრანის მიხედვით */
+    #lightboxProjectTitle {
+        font-size: 1.1rem !important; /* უფრო პატარა სათაური მობილურზე */
+        margin-bottom: 8px !important;
+    }
+
+    /* ავტორის პატარა ჰორიზონტალური ბარათი */
+    .lightbox-card-inner .d-flex {
+        padding: 5px 10px !important; /* მაქსიმალურად ვავიწროვებთ სიმაღლეში */
+        margin-bottom: 10px !important;
+    }
+
+    #lightboxAuthorAvatar {
+        width: 38px !important; /* უფრო კომპაქტური ავატარი */
+        height: 38px !important;
+    }
+
+    /* პროფილის ნახვის ღილაკი */
+    #lightboxAuthorLink {
+        padding: 8px 16px !important; /* ვიწრო ღილაკი */
+        font-size: 0.9rem !important;
+    }
+
+    /* დახურვის X ღილაკის უსაფრთხო პოზიცია */
+    .lightbox-close {
+        
+        top: 15px !important;
+        right: 20px !important;
+        font-size: 32px !important;
+        z-index: 2100;
+        font-size: 4rem !important;
+    }
+    
+}
+   .explore-lightbox {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 10, 15, 0.96);
+    backdrop-filter: blur(12px);
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.explore-lightbox.active,
+[style*="display: flex"].explore-lightbox {
+    display: flex !important;
+    flex-direction: column; /* ელემენტები ლაგდება ვერტიკალურად */
+    justify-content: center;
+}
+
+
+#lightboxImg {
+    max-width: 85%;
+    max-height: 65vh; /* სურათი მაქსიმუმ ეკრანის 65%-ს დაიკავებს, რომ ინფოს ადგილი დარჩეს */
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    margin-bottom: 25px; /* დააშორებს ქვედა ინფორმაციას */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.lightbox-author-info {
+    background: rgba(255, 255, 255, 0.03); /* ძალიან ნაზი შუშისებრი ჩარჩო */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(5px);
+    padding: 20px 40px;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeInLightboxInfo 0.4s ease-out;
+}
+
+/* ავტორის ავატარის ეფექტები */
+#lightboxAuthorAvatar {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border: 2px solid #a29bfe !important; /* საიტის იისფერი ჩარჩო ავატარს */
+    box-shadow: 0 0 15px rgba(162, 155, 254, 0.3);
+}
+
+/* ტექსტების ზომების კორექცია */
+#lightboxProjectTitle {
+    color: #ffffff !important;
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+}
+
+#lightboxAuthorFullName {
+    color: #a29bfe !important; /* ავტორის სახელი გამოიყოფა იისფრად */
+}
+
+/* ინფორმაციის გამოჩენის ნაზი ანიმაცია */
+@keyframes fadeInLightboxInfo {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* მობილური მოწყობილობებისთვის ოპტიმიზაცია */
+
+
+.lightbox-close {
+    position: absolute;
+    top: 25px; right: 40px;
+    font-size: 3.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    Z-index: 2100;
+}
+
+.lightbox-close:hover { 
+    color: var(--hover-red); 
+}
+.btn-outline-purple {
+    color: #a29bfe !important;
+    border: 1px solid rgba(162, 155, 254, 0.4) !important;
+    background: rgba(162, 155, 254, 0.05);
+    transition: all 0.3s ease;
+}
+
+.btn-outline-purple:hover {
+    color: #ffffff !important;
+    background: #6c5ce7 !important;
+    border-color: #6c5ce7 !important;
+    box-shadow: 0 0 15px rgba(108, 92, 231, 0.4);
+}
+
+/* ==========================================================================
+   7. RESPONSIVE MEDIA QUERIES (რესპონსიულობა სვეტებისთვის)
+   ========================================================================== */
+@media (max-width: 1400px) { .explore-masonry { column-count: 4; } }
+@media (max-width: 1000px) { .explore-masonry { column-count: 3; } }
+@media (max-width: 768px) { 
+    .explore-masonry { column-count: 2; padding: 0; } 
+    .explore-container { padding: 10px 20px; }
+}
+@media (max-width: 480px) { .explore-masonry { column-count: 2; } }
+
+
+
+
+
+
+
+
+.skeleton-container {
+    position: relative;
+    background: #131322;
+    border-radius: 12px;
+    overflow: hidden;
+    /* 🎯 min-height-ის ნაცვლად ვიყენებთ aspect-ratio-ს, 
+       რაც ბადეს აიძულებს ფოტოს ჩატვირთვამდეც ჰქონდეს პროპორციული ფორმა */
+    aspect-ratio: 4 / 3; 
+    height: max-content;
+}
+
+/* მბზინავი ეფექტი */
+.skeleton-container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.03) 20%,
+        rgba(255, 255, 255, 0.07) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: cssShimmer 1.5s infinite;
+    z-index: 1;
+}
+
+@keyframes cssShimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* 🎯 ფოტოს ახალი წესები */
+.explore-masonry-img {
+    position: relative;
+    z-index: 2; /* სკელეტონზე მაღლა */
+    width: 100%;
+    display: block;
+    height: auto;
+    border-radius: 12px;
+}
+
+/* 🎯 როდესაც ფოტო წარმატებით ჩაჯდება, კონტეინერი იღებს 
+   მის ზუსტ სიმაღლეს და იშორებს საწყის პროპორციას */
+.skeleton-container:has(img) {
+    aspect-ratio: auto; 
+}
+
+
+
+
+
+.like-btn .like-icon {
+    pointer-events: none; 
+}
+
+.text-purple {
+    color: #a855f7 !important; 
+}
+
+
+
